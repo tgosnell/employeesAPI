@@ -118,35 +118,37 @@ resources:
             AttributeName: ID
             AttributeType: S
           -
-            AttributeName: FirstName
-            AttributeType: S
-          -
-            AttributeName: MiddleInitial
-            AttributeType: S
-          -
-            AttributeName: LastName
-            AttributeType: S
-          -
-            AttributeName: DateOfBirth
-            AttributeType: S
-          -
-            AttributeName: DateOfEmployment
-            AttributeType: S
+          #   AttributeName: FirstName
+          #   AttributeType: S
+          # -
+          #   AttributeName: MiddleInitial
+          #   AttributeType: S
+          # -
+          #   AttributeName: LastName
+          #   AttributeType: S
+          # -
+          #   AttributeName: DateOfBirth
+          #   AttributeType: S
+          # -
+          #   AttributeName: DateOfEmployment
+          #   AttributeType: S
           -
             AttributeName: Status
             AttributeType: S
         KeySchema:
           - AttributeName: ID
             KeyType: HASH
-        LocalSecondaryIndexes:
-          - IndexName: StatusIndex
-            KeySchema:
-            - AttributeName: ID
-              KeyType: HASH
-            - AttributeName: Status
+          - AttributeName: Status
               KeyType: RANGE
-            Projection:
-              ProjectionType: ALL
+        # LocalSecondaryIndexes:
+        #   - IndexName: StatusIndex
+        #     KeySchema:
+        #     - AttributeName: ID
+        #       KeyType: HASH
+        #     - AttributeName: Status
+        #       KeyType: RANGE
+        #     Projection:
+        #       ProjectionType: ALL
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
