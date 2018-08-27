@@ -11,7 +11,8 @@
 #
 # Happy Coding!
 
-service: aws-nodejs # NOTE: update this with your service name
+# service: aws-nodejs # NOTE: update this with your service name
+service: employees
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -24,6 +25,7 @@ provider:
 # you can overwrite defaults here
 #  stage: dev
   region: us-west-2
+  memorySize: 512
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -55,9 +57,22 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
+  createEmployees:
     handler: handler.hello
-
+    events: 
+      - http: post employees/
+  updateEmployees:
+    handler: handler.hello
+    events: 
+      - http: put employees/
+  getEmployees:
+    handler: handler.hello
+    events: 
+      - http: get employees/
+  deleteEmployees:
+    handler: handler.hello
+    events: 
+      - http: delete employees/
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
