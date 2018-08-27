@@ -58,19 +58,19 @@ provider:
 
 functions:
   createEmployees:
-    handler: handler.hello
+    handler: handler.create
     events: 
       - http: post employees/
   updateEmployees:
-    handler: handler.hello
+    handler: handler.update
     events: 
       - http: put employees/
   getEmployees:
-    handler: handler.hello
+    handler: handler.get
     events: 
       - http: get employees/
   deleteEmployees:
-    handler: handler.hello
+    handler: handler.delete
     events: 
       - http: delete employees/
 #    The following are a few example events you can configure
@@ -107,6 +107,49 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - 
+            AttributeName: ID
+            AttributeType: S
+          -
+            AttributeName: FirstName
+            AttributeType: S
+          -
+            AttributeName: MiddleInitial
+            AttributeType: S
+          -
+            AttributeName: LastName
+            AttributeType: S
+          -
+            AttributeName: DateOfBirth
+            AttributeType: S
+          -
+            AttributeName: DateOfEmployment
+            AttributeType: S
+          -
+            AttributeName: Status
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ID
+            KeyType: HASH
+        LocalSecondaryIndexes:
+          - IndexName: StatusIndex
+            KeySchema:
+            - AttributeName: ID
+              KeyType: HASH
+            - AttributeName: Status
+              KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 #resources:
 #  Resources:
 #    NewResource:
