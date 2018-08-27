@@ -1,7 +1,7 @@
 
-#Employees API
+# Employees API
 
-This project is built with the [serverless framework] (https://serverless.com/) and [CircleCI] (https://circleci.com/)
+This project is built with the [serverless framework](https://serverless.com/) and [CircleCI](https://circleci.com/)
 
 It creates a REST API and the serverless lambda function to handle the incoming data.
 
