@@ -23,7 +23,7 @@ provider:
   runtime: nodejs8.10
 
 # you can overwrite defaults here
-#  stage: dev
+  stage: dev
   region: us-west-2
   memorySize: 512
 
