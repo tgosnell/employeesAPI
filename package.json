@@ -4,6 +4,7 @@
   "description": "",
   "main": "handler.js",
   "dependencies": {
+    "aws-sdk": "^2.303.0",
     "chai": "^4.1.2"
   },
   "devDependencies": {
