@@ -1,6 +1,6 @@
 'use strict';
 const aws = require('aws-sdk');
-const dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+const dynamodb = new aws.DynamoDB({apiVersion: '2012-08-10'});
 
 const tableName = process.env.TABLE_NAME;
 
