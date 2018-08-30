@@ -33,7 +33,7 @@ provider:
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:us-west-2:*:*"
   environment:
-    TABLE_NAME: usersTable
+    TABLE_NAME: employeesTable
 
 
 # you can overwrite defaults here
@@ -126,7 +126,7 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: usersTable
+        TableName: employeesTable
         AttributeDefinitions:
           - 
             AttributeName: ID
