@@ -51,7 +51,7 @@ module.exports.create = async (event, context) => {
   let message = 'Go Serverless v1.0! Your function executed successfully!'
   if(auth.checkAuth(event.headers.key)){
     if(event.body){
-      employee.addEmployees(event.body)
+      await employee.addEmployees(event.body)
       // let employees = JSON.parse(event.body);
 
       // if(Array.isArray(employees)){

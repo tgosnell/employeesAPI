@@ -4,7 +4,7 @@ const docClient = new aws.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
 const tableName = process.env.TABLE_NAME;
 const uuid = require('uuid');
 
-module.exports.addEmployees = (payload) => {
+module.exports.addEmployees = async (payload) => {
 
 if(payload){
     let employees = JSON.parse(payload);
