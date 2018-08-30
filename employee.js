@@ -77,7 +77,7 @@ module.exports.getEmployee = async (id) => {
 const fetchEmployee = async (id) => {
   
   var params = {
-    TableName: table,
+    TableName: tableName,
     Key:{
         "ID": id,
         "Status": 'Active'
