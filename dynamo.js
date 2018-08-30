@@ -19,7 +19,7 @@ if(payload){
   }
 }
 
-const putEmployee = (employee) => {
+const putEmployee = async (employee) => {
     let params = {
         TableName: tableName,
         ReturnConsumedCapacity: "TOTAL",
