@@ -17,7 +17,8 @@ if(payload){
       }
     }
     else {
-      insert(employee);
+      //employees only contains one single record in non-array form, so just pass the object
+      insert(employees);
     }
   }
 }
@@ -25,33 +26,33 @@ if(payload){
 const insert = async (employee) => {
     console.log(`inserting: ${employee}`)
     let params = {
-        TableName: tableName,
-        ReturnConsumedCapacity: "TOTAL",
-        Item: {
-          ID :uuid.v4(),
-          FirstName: employee.FirstName,
-          MiddleInitial: employee.MiddleInitial,
-          LastName: employee.LastName,
-          DateOfBirth: employee.DateOfBirth,
-          DateOfEmployment: employee.DateOfEmployment,
-          Status: 'Active'
-          }
+      TableName: tableName,
+      ReturnConsumedCapacity: "TOTAL",
+      Item: {
+        ID :uuid.v4(),
+        FirstName: employee.FirstName,
+        MiddleInitial: employee.MiddleInitial,
+        LastName: employee.LastName,
+        DateOfBirth: employee.DateOfBirth,
+        DateOfEmployment: employee.DateOfEmployment,
+        Status: 'Active'
         }
+      }
       
-        //define the promise that will wait for the results of the put
-        let putItem = new Promise((res, rej) => {
-          docClient.put(params, function(err, data) {
-            if (err) {
-              console.log("Error", err);
-              rej(err);
-            } else {
-              console.log("Success", data);
-              res("Hi, insert data completed");
-            }
-          }); 
-        });
-      
-        //execute promise
-        const result = await putItem;
-        console.log(result);
+      //define the promise that will wait for the results of the put
+      let putItem = new Promise((res, rej) => {
+        docClient.put(params, function(err, data) {
+          if (err) {
+            console.log("Error", err);
+            rej(err);
+          } else {
+            console.log("Success", data);
+            res("Hi, insert data completed");
+          }
+        }); 
+      });
+    
+      //execute promise
+      const result = await putItem;
+      console.log(result);
 }
