@@ -194,9 +194,12 @@ const removeEmployee = async (id) => {
           "ID": id,
           // "Status": title
       },
-      UpdateExpression: "set status=:s",
+      UpdateExpression: "set #s=:s",
       ExpressionAttributeValues:{
           ":s": 'INACTIVE'
+      },
+      ExpressionAttributeNames={
+        "#s": "status"
       },
       ReturnValues:"UPDATED_NEW"
     };
