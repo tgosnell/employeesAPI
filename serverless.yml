@@ -126,7 +126,7 @@ resources:
     usersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: employeesTable
+        TableName: empsTable
         AttributeDefinitions:
           - 
             AttributeName: ID
