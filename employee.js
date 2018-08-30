@@ -6,7 +6,10 @@ const uuid = require('uuid');
 
 module.exports.addEmployees = async (payload) => {
 
-if(payload){
+  // if the data is an array, iterate over the array
+  // adding each employee to the db
+  // if the data is a single item, add it to the db, return the new employee object
+  if(payload){
     let employees = JSON.parse(payload);
     
     //some validation of the employee data here would be a good thing to add
@@ -59,3 +62,48 @@ const insert = async (employee) => {
       //output what we just insertd
       console.log(result);  
 }
+
+module.exports.getEmployee = async (id) => {
+  let result = '';
+  if(id){
+    result = await fetchEmployee(id);
+  }
+  else {
+    result = await fetchEmployees();
+  }
+  return result
+}
+
+const fetchEmployee = async (id) => {
+  
+  var params = {
+    TableName: table,
+    Key:{
+        "ID": id,
+        "Status": 'Active'
+    }
+  };
+
+  let getItem = new Promise((res, rej) => {
+    docClient.get(params, function(err, data) {
+        if (err) {
+            console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+            rej(err);
+        } else {
+            console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+            res(data);
+        }
+    });
+  })
+
+  const result = await getItem;
+  //output what we just insertd
+  console.log(result); 
+  return result;
+}
+
+// const fetchEmployees = async (id) => {
+  
+//   let getEmployee = new Promise((res, rej) => {
+//   }
+// }
