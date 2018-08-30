@@ -90,7 +90,7 @@ module.exports.create = async (event, context) => {
         
           console.log(`putting item: ${JSON.stringify(params)}`)
           let putItem = new Promise((res, rej) => {
-            documentClient.put(params, function(err, data) {
+            docClient.put(params, function(err, data) {
               if (err) {
                 console.log("Error", err);
                 rej(err);
