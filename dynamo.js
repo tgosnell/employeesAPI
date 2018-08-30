@@ -13,9 +13,8 @@ if(payload){
     let result = [];
     //loop through array of items to add and send them to dynamo
     for(let employee of employees){
-        result.push(putEmployee(employee));
+        putEmployee(employee);
     }
-    return result;
   }
 }
 
@@ -49,5 +48,5 @@ const putEmployee = async (employee) => {
       
         //execute promise
         const result = await putItem;
-        return result;
+        console.log(result);
 }
