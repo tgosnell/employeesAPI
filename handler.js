@@ -1,6 +1,6 @@
 'use strict';
 const aws = require('aws-sdk');
-const dynamodb = new aws.DynamoDB({apiVersion: '2012-08-10'});
+const docClient = new aws.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
 const tableName = process.env.TABLE_NAME;
 const uuid = require('uuid');
 const auth = require('./auth');
@@ -57,41 +57,61 @@ module.exports.create = async (event, context) => {
           TableName: tableName,
           ReturnConsumedCapacity: "TOTAL",
           Item: {
-            ID : {
-              S: uuid.v4()
-            },
-            FirstName: {
-              S: employee.FirstName
-            },
-            MiddleInitial: {
-              S: employee.MiddleInitial
-            },
-            LastName: {
-              S: employee.LastName
-            },
-            DateOfBirth: {
-              S: employee.DateOfBirth
-            },
-            DateOfEmployment: {
-              S: employee.DateOfEmployment
-            },
-            Status: {
-              S: 'Active'
+            // ID : {
+            //   S: uuid.v4()
+            // },
+            // FirstName: {
+            //   S: employee.FirstName
+            // },
+            // MiddleInitial: {
+            //   S: employee.MiddleInitial
+            // },
+            // LastName: {
+            //   S: employee.LastName
+            // },
+            // DateOfBirth: {
+            //   S: employee.DateOfBirth
+            // },
+            // DateOfEmployment: {
+            //   S: employee.DateOfEmployment
+            // },
+            // Status: {
+            //   S: 'Active'
+            // }
+            ID :uuid.v4(),
+            FirstName: employee.FirstName,
+            MiddleInitial: employee.MiddleInitial,
+            LastName: employee.LastName,
+            DateOfBirth: employee.DateOfBirth,
+            DateOfEmployment: employee.DateOfEmployment,
+            Status: 'Active'
             }
           }
         }
-        dynamodb.putItem(params, (err, data) => {
-          if (err) {
-            // an error occurred
-            console.log(err, err.stack); 
-            statusCode = 500;
-            message = 'Internal Server Error'
-          } 
-          else {
-            console.log(data);
-          } 
-        })
-      }
+        console.log(`putting item: ${JSON.stringify(params)}`)
+        let putItem = new Promise((res, rej) => {
+          documentClient.put(params, function(err, data) {
+            if (err) {
+              console.log("Error", err);
+              rej(err);
+            } else {
+              console.log("Success", data);
+              res("Hi, insert data completed");
+            }
+          }); 
+      });
+        // dynamodb.putItem(params, (err, data) => {
+        //   if (err) {
+        //     // an error occurred
+        //     console.log(err, err.stack); 
+        //     statusCode = 500;
+        //     message = 'Internal Server Error'
+        //   } 
+        //   else {
+        //     console.log(data);
+        //   } 
+        // })
+      // }
     }
   }
   else {
