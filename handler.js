@@ -52,6 +52,23 @@ module.exports.create = async (event, context) => {
     if(event.body){
       let body = JSON.parse(event.body);
       console.log(`body length: ${body.length}`)
+      for(let employee of body){
+        let params = {
+          TableName: tableName,
+          ReturnConsumedCapacity: "TOTAL",
+          Item: {
+            FirstName: employee.FirstName,
+            MiddleInitial: employee.MiddleInitial,
+            LastName: employee.LastName,
+            DateOfBirth: employee.DateOfBirth,
+            DateOfEmployment: employee.DateOfEmployment,
+            Status: 'Active'
+          }
+        }
+        dynamodb.putItem(params, (err, data) => {
+          if (err) console.log(err, err.stack); // an error occurred
+          else     console.log(data); });
+      }
     }
   }
   else {
