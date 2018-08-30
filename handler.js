@@ -78,7 +78,12 @@ module.exports.create = async (event, context) => {
           }
         }
         dynamodb.putItem(params, (err, data) => {
-          if (err) console.log(err, err.stack); // an error occurred
+          if (err) {
+            // an error occurred
+            console.log(err, err.stack); 
+            statusCode = 500;
+            message = 'Internal Server Error'
+          } 
           else     console.log(data); });
       }
     }
