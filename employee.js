@@ -187,12 +187,12 @@ module.exports.deleteEmployee = async (id) => {
 const removeEmployee = async (id) => {
   if(id){
     // let employee = JSON.parse(payload);
-
+    console.log(`id: ${id}`)
     var params = {
       TableName:tableName,
       Key:{
           "ID": id,
-          // "Status": title
+          "Status": 'Active'
       },
       UpdateExpression: "set #s=:s",
       ExpressionAttributeValues:{
