@@ -1,8 +1,9 @@
 'use strict';
 const aws = require('aws-sdk');
 const dynamodb = new aws.DynamoDB({apiVersion: '2012-08-10'});
-
 const tableName = process.env.TABLE_NAME;
+
+const checkAuth = require('./auth');
 
 module.exports.get = async (event, context) => {
 
@@ -28,6 +29,7 @@ module.exports.get = async (event, context) => {
     statusCode: 200,
     body: JSON.stringify({
       message: 'Go Serverless v1.0! Your function executed successfully!',
+      tableName: tableName,
       input: event,
     }),
   };
@@ -44,10 +46,22 @@ module.exports.create = async (event, context) => {
   // adding each employee to the db
   // if the data is a single item, add it to the db, return the new employee object
   // 
+  let statusCode = 201; 
+  let message = 'Go Serverless v1.0! Your function executed successfully!'
+  if(checkAuth(event.headers.key)){
+    if(event.body){
+      let body = JSON.parse(event.body);
+      console.log(`body length: ${body.lngth}`)
+    }
+  }
+  else {
+    message = 'Please check your crendentials';
+    statusCode = 401;
+  }
   return {
-    statusCode: 201,
+    statusCode: statusCode,
     body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
+      message: message,
       input: event,
     }),
   };
