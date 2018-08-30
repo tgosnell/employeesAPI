@@ -185,13 +185,13 @@ module.exports.deleteEmployee = async (id) => {
 }
 
 const removeEmployee = async (id) => {
-  if(payload){
-    let employee = JSON.parse(payload);
+  if(id){
+    // let employee = JSON.parse(payload);
 
     var params = {
       TableName:tableName,
       Key:{
-          "ID": employee.ID,
+          "ID": id,
           // "Status": title
       },
       UpdateExpression: "set status=:s",
