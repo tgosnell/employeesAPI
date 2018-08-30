@@ -78,10 +78,10 @@ const fetchEmployee = async (id) => {
   
   var params = {
     TableName: tableName,
-    // Key:{
-    //     "ID": id
-    // },
-    KeyConditionExpression: 'id=:id',
+    Key:{
+        "ID": id
+    },
+    // KeyConditionExpression: 'ID=:id',
     ConditionExpression:" #stat=:val",
     ExpressionAttributeValues: {
         ":val": 'ACTIVE',
