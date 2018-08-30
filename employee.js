@@ -79,9 +79,15 @@ const fetchEmployee = async (id) => {
   var params = {
     TableName: tableName,
     Key:{
-        "ID": id,
-        "Status": 'Active'
-    }
+        "ID": id
+    },
+    ConditionExpression:" #stat=:val",
+    ExpressionAttributeValues: {
+        ":val": 'ACTIVE'
+    },
+    ExpressionAttributeNames:{
+      "#stat": "Status"
+    },
   };
 
   let getItem = new Promise((res, rej) => {
