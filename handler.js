@@ -51,7 +51,7 @@ module.exports.create = async (event, context) => {
   if(auth.checkAuth(event.headers.key)){
     if(event.body){
       let body = JSON.parse(event.body);
-      console.log(`body length: ${body.lngth}`)
+      console.log(`body length: ${body.length}`)
     }
   }
   else {
