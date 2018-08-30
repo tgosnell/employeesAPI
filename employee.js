@@ -13,12 +13,12 @@ if(payload){
     if(Array.isArray(employees)){
       //loop through array of items to add and send them to dynamo
       for(let employee of employees){
-          insert(employee);
+          await insert(employee);
       }
     }
     else {
       //employees only contains one single record in non-array form, so just pass the object
-      insert(employees);
+      await insert(employees);
     }
   }
 }
