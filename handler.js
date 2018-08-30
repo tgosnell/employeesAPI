@@ -6,6 +6,8 @@ const uuid = require('uuid');
 const auth = require('./auth');
 const employee = require('./employee');
 
+
+//Export get
 module.exports.get = async (event, context) => {
 
   console.log(JSON.stringify(event, null, '  '));
@@ -33,12 +35,9 @@ module.exports.get = async (event, context) => {
       data: getData
     }),
   };
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
 
-
+//Export create
 module.exports.create = async (event, context) => {
 
   // check auth
@@ -62,39 +61,54 @@ module.exports.create = async (event, context) => {
       input: event,
     }),
   };
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
 
+//Export update
 module.exports.update = async (event, context) => {
-
+  let statusCode = 201; 
+  let message = 'Go Serverless v1.0! Your function executed successfully!'
+  let updateData = { place: 'holder'};
+  if(auth.checkAuth(event.headers.key)){
+    if(event.body){
+      updateData = await employee.updateEmployee(event.body)
+    }
+  } 
+  else {
+    message = 'Please check your crendentials';
+    statusCode = 401;
+  }
   // check auth
   // get the employee resource from dynamo, update values, send it back to dynamo
   return {
-    statusCode: 200,
+    statusCode: statusCode,
     body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
+      message: message,
+      data: updateData,
     }),
   };
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
 
+//Export delete
 module.exports.delete = async (event, context) => {
 
+  let statusCode = 200;
+  let message = 'Go Serverless v1.0! Your function executed successfully!';
+  let deleteData = { place: 'holder'};
+
+  if(auth.checkAuth(event.headers.key)){
+    deleteData = await employee.deleteEmployee(event.queryStringParameters.id);
+  }
+  else {
+    message = 'Please check your crendentials';
+    statusCode = 401;
+  }
   // check auth
   // get the employee by id, change their status to inactive
   return {
-    statusCode: 200,
+    statusCode: statusCode,
     body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
+      message: message,
+      data: deleteData,
     }),
   };
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };

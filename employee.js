@@ -38,14 +38,14 @@ const insert = async (employee) => {
         LastName: employee.LastName,
         DateOfBirth: employee.DateOfBirth,
         DateOfEmployment: employee.DateOfEmployment,
-        Status: 'Active'
+        Status: 'ACTIVE'
         }
       }
       
       console.log(`params: ${JSON.stringify(params)}`)
 
       //define the promise that will wait for the results of the put
-      let putItem = new Promise((res, rej) => {
+      let insertItem = new Promise((res, rej) => {
         docClient.put(params, function(err, data) {
           if (err) {
             console.log("Error", err);
@@ -58,8 +58,8 @@ const insert = async (employee) => {
       });
     
       //execute promise
-      const result = await putItem;
-      //output what we just insertd
+      const result = await insertItem;
+      //output what we just inserted
       console.log(result);  
 }
 
@@ -97,13 +97,129 @@ const fetchEmployee = async (id) => {
   })
 
   const result = await getItem;
-  //output what we just insertd
+  //output what we just fetched
   console.log(result); 
   return result;
 }
 
-// const fetchEmployees = async (id) => {
+const fetchEmployees = async (id) => {
   
-//   let getEmployee = new Promise((res, rej) => {
-//   }
-// }
+  var params = {
+    TableName : tableName,
+    KeyConditionExpression: "#stat = :act",
+    ExpressionAttributeNames:{
+        "#stat": "Status"
+    },
+    ExpressionAttributeValues: {
+        ":act": 'Active'
+    }
+  };
+
+  let getItems = new Promise((res, rej) => {
+    docClient.get(params, function(err, data) {
+      if (err) {
+          console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+          rej(err);
+      } else {
+          console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+          res(data);
+      }
+    });
+  })
+}
+
+module.exports.updateEmployee = async (payload) => {
+  let result = await patchEmployee(payload);
+  return result
+}
+
+const patchEmployee = async (payload) => {
+  if(payload){
+    let employee = JSON.parse(payload);
+
+    var params = {
+      TableName:tableName,
+      Key:{
+          "ID": employee.ID,
+          // "Status": title
+      },
+      UpdateExpression: "set FirstName = :f, MiddleInitial=:m, LastName=:l, DateOfBirth=:dob,DateOfEmployment=:doe, status=:s",
+      ExpressionAttributeValues:{
+          ":f": employee.FirstName,
+          ":m": employee.MiddleInitial,
+          ":l": employee.LastName,
+          ":dob": employee.DateOfBirth,
+          ":doe": employee.DateOfEmployment,
+          ":s": 'ACTIVE'
+      },
+      ReturnValues:"UPDATED_NEW"
+    };
+
+    console.log("Updating the employee...");
+    let patchItem = new Promise((res, rej) => {
+      docClient.update(params, function(err, data) {
+          if (err) {
+              console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+              rej(err);
+          } else {
+              console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+              res(data);
+          }
+      });
+    })
+
+    const result = await patchItem;
+    //output what we just updated
+    console.log(result); 
+    return result;
+  }
+  return { 
+      message: 'no data provided'
+  } 
+}
+
+module.exports.deleteEmployee = async (id) => {
+  if(id){
+    await removeEmployee(id)
+  }
+}
+
+const removeEmployee = async (id) => {
+  if(payload){
+    let employee = JSON.parse(payload);
+
+    var params = {
+      TableName:tableName,
+      Key:{
+          "ID": employee.ID,
+          // "Status": title
+      },
+      UpdateExpression: "set status=:s",
+      ExpressionAttributeValues:{
+          ":s": 'INACTIVE'
+      },
+      ReturnValues:"UPDATED_NEW"
+    };
+
+    console.log("Deleting the employee...");
+    let patchItem = new Promise((res, rej) => {
+      docClient.update(params, function(err, data) {
+          if (err) {
+              console.error("Unable to delete item. Error JSON:", JSON.stringify(err, null, 2));
+              rej(err);
+          } else {
+              console.log("DeleteItem succeeded:", JSON.stringify(data, null, 2));
+              res(data);
+          }
+      });
+    })
+
+    const result = await patchItem;
+    //output what we just deleted
+    console.log(result); 
+    return result;
+  }
+  return { 
+      message: 'no data provided'
+  } 
+}
