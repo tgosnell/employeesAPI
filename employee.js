@@ -78,12 +78,14 @@ const fetchEmployee = async (id) => {
   
   var params = {
     TableName: tableName,
-    Key:{
-        "ID": id
-    },
+    // Key:{
+    //     "ID": id
+    // },
+    KeyConditionExpression: 'id=:id',
     ConditionExpression:" #stat=:val",
     ExpressionAttributeValues: {
-        ":val": 'ACTIVE'
+        ":val": 'ACTIVE',
+        ":id": id
     },
     ExpressionAttributeNames:{
       "#stat": "Status"
@@ -91,7 +93,7 @@ const fetchEmployee = async (id) => {
   };
 
   let getItem = new Promise((res, rej) => {
-    docClient.get(params, function(err, data) {
+    docClient.query(params, function(err, data) {
         if (err) {
             console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
             rej(err);
