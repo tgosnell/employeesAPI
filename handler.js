@@ -4,7 +4,7 @@ const docClient = new aws.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
 const tableName = process.env.TABLE_NAME;
 const uuid = require('uuid');
 const auth = require('./auth');
-const employee = require('employee');
+const employee = require('./employee');
 
 module.exports.get = async (event, context) => {
 
