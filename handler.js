@@ -50,11 +50,13 @@ module.exports.create = async (event, context) => {
   let message = 'Go Serverless v1.0! Your function executed successfully!'
   if(auth.checkAuth(event.headers.key)){
     if(event.body){
-      let body = JSON.parse(event.body);
-      console.log(`body length: ${body.length}`)
+      let employees = JSON.parse(event.body);
+      console.log(`body length: ${employees.length}`)
+
+      console.log(`is array: ${Array.isArray(employees)}`);
 
       //loop through array of items to add and send them to dynamo
-      for(let employee of body){
+      for(let employee of employees){
         let params = {
           TableName: tableName,
           ReturnConsumedCapacity: "TOTAL",
