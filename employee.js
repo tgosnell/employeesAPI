@@ -198,7 +198,7 @@ const removeEmployee = async (id) => {
       ExpressionAttributeValues:{
           ":s": 'INACTIVE'
       },
-      ExpressionAttributeNames={
+      ExpressionAttributeNames:{
         "#s": "status"
       },
       ReturnValues:"UPDATED_NEW"
