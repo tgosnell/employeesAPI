@@ -1,9 +1,8 @@
 'use strict';
-const uuid = require('uuid');
 const aws = require('aws-sdk');
 const dynamodb = new aws.DynamoDB({apiVersion: '2012-08-10'});
 const tableName = process.env.TABLE_NAME;
-
+const uuid = require('uuid');
 const auth = require('./auth');
 
 module.exports.get = async (event, context) => {
@@ -58,23 +57,27 @@ module.exports.create = async (event, context) => {
           TableName: tableName,
           ReturnConsumedCapacity: "TOTAL",
           Item: {
-            'ID': uuid.v4(),
-            'FirstName': employee.FirstName, //{
-              // S: employee.FirstName
-            // },
-            'MiddleInitial': employee.MiddleInitial,
-            'LastName': employee.LastName, //{
-              // S: employee.LastName
-            // },
-            DateOfBirth: employee.DateOfBirth, //{
-              // S: employee.DateOfBirth
-            // },
-            DateOfEmployment: employee.DateOfEmployment,//{
-              // S: employee.DateOfEmployment
-            // },
-            'Status': 'Active'//{
-              // S: 
-            // }
+            ID : {
+              S: uuid.v4()
+            },
+            FirstName: {
+              S: employee.FirstName
+            },
+            MiddleInitial: {
+              S: employee.MiddleInitial
+            },
+            LastName: {
+              S: employee.LastName
+            },
+            DateOfBirth: {
+              S: employee.DateOfBirth
+            },
+            DateOfEmployment: {
+              S: employee.DateOfEmployment
+            },
+            Status: {
+              S: 'Active'
+            }
           }
         }
         dynamodb.putItem(params, (err, data) => {
