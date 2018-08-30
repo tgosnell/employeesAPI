@@ -1,4 +1,5 @@
 'use strict';
+const uuid = require('uuid');
 const aws = require('aws-sdk');
 const dynamodb = new aws.DynamoDB({apiVersion: '2012-08-10'});
 const tableName = process.env.TABLE_NAME;
@@ -57,24 +58,23 @@ module.exports.create = async (event, context) => {
           TableName: tableName,
           ReturnConsumedCapacity: "TOTAL",
           Item: {
-            FirstName: {
-              S: employee.FirstName
-            },
-            MiddleInitial: {
-              S: employee.MiddleInitial
-            },
-            LastName: {
-              S: employee.LastName
-            },
-            DateOfBirth: {
-              S: employee.DateOfBirth
-            },
-            DateOfEmployment: {
-              S: employee.DateOfEmployment
-            },
-            Status: {
-              S: 'Active'
-            }
+            'ID': uuid.v4(),
+            'FirstName': employee.FirstName, //{
+              // S: employee.FirstName
+            // },
+            'MiddleInitial': employee.MiddleInitial,
+            'LastName': employee.LastName, //{
+              // S: employee.LastName
+            // },
+            DateOfBirth: employee.DateOfBirth, //{
+              // S: employee.DateOfBirth
+            // },
+            DateOfEmployment: employee.DateOfEmployment,//{
+              // S: employee.DateOfEmployment
+            // },
+            'Status': 'Active'//{
+              // S: 
+            // }
           }
         }
         dynamodb.putItem(params, (err, data) => {
@@ -84,7 +84,10 @@ module.exports.create = async (event, context) => {
             statusCode = 500;
             message = 'Internal Server Error'
           } 
-          else     console.log(data); });
+          else {
+            console.log(data);
+          } 
+        })
       }
     }
   }
