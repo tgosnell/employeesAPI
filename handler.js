@@ -57,12 +57,24 @@ module.exports.create = async (event, context) => {
           TableName: tableName,
           ReturnConsumedCapacity: "TOTAL",
           Item: {
-            FirstName: employee.FirstName,
-            MiddleInitial: employee.MiddleInitial,
-            LastName: employee.LastName,
-            DateOfBirth: employee.DateOfBirth,
-            DateOfEmployment: employee.DateOfEmployment,
-            Status: 'Active'
+            FirstName: {
+              S: employee.FirstName
+            },
+            MiddleInitial: {
+              S: employee.MiddleInitial
+            },
+            LastName: {
+              S: employee.LastName
+            },
+            DateOfBirth: {
+              S: employee.DateOfBirth
+            },
+            DateOfEmployment: {
+              S: employee.DateOfEmployment
+            },
+            Status: {
+              S: 'Active'
+            }
           }
         }
         dynamodb.putItem(params, (err, data) => {
