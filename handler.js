@@ -87,22 +87,24 @@ module.exports.create = async (event, context) => {
             Status: 'Active'
             }
           }
-        }
-        console.log(`putting item: ${JSON.stringify(params)}`)
-        let putItem = new Promise((res, rej) => {
-          documentClient.put(params, function(err, data) {
-            if (err) {
-              console.log("Error", err);
-              rej(err);
-            } else {
-              console.log("Success", data);
-              res("Hi, insert data completed");
-            }
-          }); 
-      });
+        
+          console.log(`putting item: ${JSON.stringify(params)}`)
+          let putItem = new Promise((res, rej) => {
+            documentClient.put(params, function(err, data) {
+              if (err) {
+                console.log("Error", err);
+                rej(err);
+              } else {
+                console.log("Success", data);
+                res("Hi, insert data completed");
+              }
+            }); 
+          });
+        
 
-      const result = await putItem;
-      console.log(result);    
+          const result = await putItem;
+          console.log(result);    
+        }
         // dynamodb.putItem(params, (err, data) => {
         //   if (err) {
         //     // an error occurred
