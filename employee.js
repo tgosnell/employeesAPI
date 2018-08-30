@@ -24,7 +24,7 @@ if(payload){
 }
 
 const insert = async (employee) => {
-    console.log(`inserting: ${employee}`)
+    console.log(`inserting: ${JSON.stringify(employee)}`)
     let params = {
       TableName: tableName,
       ReturnConsumedCapacity: "TOTAL",
@@ -39,6 +39,8 @@ const insert = async (employee) => {
         }
       }
       
+      console.log(`params: ${JSON.stringify(params)}`)
+
       //define the promise that will wait for the results of the put
       let putItem = new Promise((res, rej) => {
         docClient.put(params, function(err, data) {
@@ -54,5 +56,6 @@ const insert = async (employee) => {
     
       //execute promise
       const result = await putItem;
-      console.log(result);
+      //output what we just insertd
+      console.log(result);  
 }
