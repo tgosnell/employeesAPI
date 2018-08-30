@@ -1,18 +1,25 @@
 'use strict';
+const aws = require('aws-sdk');
+const docClient = new aws.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
 const tableName = process.env.TABLE_NAME;
 const uuid = require('uuid');
 const auth = require('./auth');
-const dynamo = require('./dynamo')
 
 module.exports.get = async (event, context) => {
 
+  console.log(JSON.stringify(event, null, '  '));
+  console.log(tableName)
   
-  if(auth.checkAuth(event.headers.key)){
+  // if(auth()){
 
-  }
-  else {
-  
-  }
+  // }
+  // else {
+  //   return {
+  //     statusCode: 401,
+  //     body: JSON.stringify({
+  //       message: 'Authentication failed'  
+  //     })
+  //   }
   // }
   // check auth
   // get id from the event, query dynamo for active, return result 
@@ -42,8 +49,46 @@ module.exports.create = async (event, context) => {
   let statusCode = 201; 
   let message = 'Go Serverless v1.0! Your function executed successfully!'
   if(auth.checkAuth(event.headers.key)){
-    let result = dynamo.insert(event.body);
-    console.log(`result = ${result}`);
+    if(event.body){
+      let body = JSON.parse(event.body);
+      console.log(`body length: ${body.length}`)
+
+      //loop through array of items to add and send them to dynamo
+      for(let employee of body){
+        let params = {
+          TableName: tableName,
+          ReturnConsumedCapacity: "TOTAL",
+          Item: {
+            ID :uuid.v4(),
+            FirstName: employee.FirstName,
+            MiddleInitial: employee.MiddleInitial,
+            LastName: employee.LastName,
+            DateOfBirth: employee.DateOfBirth,
+            DateOfEmployment: employee.DateOfEmployment,
+            Status: 'Active'
+            }
+          }
+        
+          //define the promise that will wait for the results of the put
+          let putItem = new Promise((res, rej) => {
+            docClient.put(params, function(err, data) {
+              if (err) {
+                console.log("Error", err);
+                rej(err);
+              } else {
+                console.log("Success", data);
+                res("Hi, insert data completed");
+              }
+            }); 
+          });
+        
+          //execute promise
+          const result = await putItem;
+          //output what we just insertd
+          console.log(result);    
+        }
+        
+    }
   }
   else {
     message = 'Please check your crendentials';
