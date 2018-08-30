@@ -3,7 +3,7 @@ const aws = require('aws-sdk');
 const dynamodb = new aws.DynamoDB({apiVersion: '2012-08-10'});
 const tableName = process.env.TABLE_NAME;
 
-const checkAuth = require('./auth');
+const auth = require('./auth');
 
 module.exports.get = async (event, context) => {
 
@@ -48,7 +48,7 @@ module.exports.create = async (event, context) => {
   // 
   let statusCode = 201; 
   let message = 'Go Serverless v1.0! Your function executed successfully!'
-  if(checkAuth(event.headers.key)){
+  if(auth.checkAuth(event.headers.key)){
     if(event.body){
       let body = JSON.parse(event.body);
       console.log(`body length: ${body.lngth}`)
