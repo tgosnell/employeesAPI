@@ -191,8 +191,7 @@ const removeEmployee = async (id) => {
     var params = {
       TableName:tableName,
       Key:{
-          "ID": id,
-          "Status": 'Active'
+          "ID": id
       },
       UpdateExpression: "set #s=:s",
       ExpressionAttributeValues:{
