@@ -131,14 +131,9 @@ resources:
           - 
             AttributeName: ID
             AttributeType: S
-          -
-            AttributeName: Status
-            AttributeType: S
         KeySchema:
           - AttributeName: ID
             KeyType: HASH
-          - AttributeName: Status
-            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
