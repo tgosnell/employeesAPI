@@ -4,21 +4,26 @@ const docClient = new aws.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
 const tableName = process.env.TABLE_NAME;
 const uuid = require('uuid');
 
-module.exports.insert = (payload) => {
+module.exports.addEmployees = (payload) => {
 
 if(payload){
     let employees = JSON.parse(payload);
     
-    console.log(Array.isArray(employees))
-    let result = [];
-    //loop through array of items to add and send them to dynamo
-    for(let employee of employees){
-        putEmployee(employee);
+    //some validation of the employee data here would be a good thing to add
+    if(Array.isArray(employees)){
+      //loop through array of items to add and send them to dynamo
+      for(let employee of employees){
+          insert(employee);
+      }
+    }
+    else {
+      insert(employee);
     }
   }
 }
 
-const putEmployee = async (employee) => {
+const insert = async (employee) => {
+    console.log(`inserting: ${employee}`)
     let params = {
         TableName: tableName,
         ReturnConsumedCapacity: "TOTAL",
