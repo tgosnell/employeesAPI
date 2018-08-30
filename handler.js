@@ -100,6 +100,9 @@ module.exports.create = async (event, context) => {
             }
           }); 
       });
+
+      const result = await putItem;
+      console.log(result);    
         // dynamodb.putItem(params, (err, data) => {
         //   if (err) {
         //     // an error occurred
