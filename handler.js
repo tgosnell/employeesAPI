@@ -18,7 +18,13 @@ module.exports.get = async (event, context) => {
   let getData = { place: 'holder'};
 
   if(auth.checkAuth(event.headers.key)){
+    if(event.queryStringParameters && event.queryStringParameters.id){
       getData = await employee.getEmployee(event.queryStringParameters.id);
+    }
+    else {
+      getData = await employee.getEmployee();
+    }
+      
   }
   else {
     message = 'Please check your crendentials';

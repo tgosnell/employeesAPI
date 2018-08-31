@@ -64,12 +64,9 @@ const insert = async (employee) => {
 }
 
 module.exports.getEmployee = async (id) => {
-  let result = '';
+  let result = {};
   if(id){
     result = await fetchEmployee(id);
-  }
-  else {
-    result = await fetchEmployees();
   }
   return result
 }
@@ -107,7 +104,12 @@ const fetchEmployee = async (id) => {
   return result;
 }
 
-const fetchEmployees = async (id) => {
+module.exports.getEmployees = async () => {
+  let  result = await fetchEmployees();
+  return result
+}
+
+const fetchEmployees = async () => {
   
   var params = {
     TableName: tableName,
