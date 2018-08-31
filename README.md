@@ -23,7 +23,7 @@ All requests to all end points must have an auth header.  Add a header named 'ke
 
 Call a POST request on the employees endpoint providing one of the two types of data listed below.
 
-1. A JSON Array - adds all the items in the JSON Array to the db
+A JSON Array - adds all the items in the JSON Array to the db
 
     [
         {
@@ -56,7 +56,7 @@ Call a POST request on the employees endpoint providing one of the two types of 
         }
     ]
 
-1. A JSON Object
+or a JSON Object
 
     {
         "FirstName": "Ibe",
