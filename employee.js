@@ -155,7 +155,7 @@ const patchEmployee = async (payload) => {
           "ID": employee.ID,
           // "Status": title
       },
-      UpdateExpression: "set FirstName = :f, MiddleInitial=:m, LastName=:l, DateOfBirth=:dob,DateOfEmployment=:doe, status=:s",
+      UpdateExpression: "set FirstName = :f, MiddleInitial=:m, LastName=:l, DateOfBirth=:dob,DateOfEmployment=:doe, #s=:s",
       ExpressionAttributeValues:{
           ":f": employee.FirstName,
           ":m": employee.MiddleInitial,
@@ -163,6 +163,9 @@ const patchEmployee = async (payload) => {
           ":dob": employee.DateOfBirth,
           ":doe": employee.DateOfEmployment,
           ":s": 'ACTIVE'
+      },
+      ExpressionAttributeNames:{
+        "#s": "Status"
       },
       ReturnValues:"UPDATED_NEW"
     };
