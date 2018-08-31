@@ -78,9 +78,6 @@ const fetchEmployee = async (id) => {
   
   var params = {
     TableName: tableName,
-    // Key:{
-    //     "ID": id
-    // },
     KeyConditionExpression: 'ID=:id',
     FilterExpression:" #stat=:val",
     ExpressionAttributeValues: {
@@ -113,27 +110,32 @@ const fetchEmployee = async (id) => {
 const fetchEmployees = async (id) => {
   
   var params = {
-    TableName : tableName,
-    KeyConditionExpression: "#stat = :act",
-    ExpressionAttributeNames:{
-        "#stat": "Status"
-    },
+    TableName: tableName,
+    FilterExpression:" #stat=:val",
     ExpressionAttributeValues: {
-        ":act": 'Active'
-    }
+        ":val": 'ACTIVE',
+    },
+    ExpressionAttributeNames:{
+      "#stat": "Status"
+    },
   };
 
   let getItems = new Promise((res, rej) => {
-    docClient.get(params, function(err, data) {
-      if (err) {
-          console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-          rej(err);
-      } else {
-          console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-          res(data);
-      }
+    docClient.query(params, function(err, data) {
+        if (err) {
+            console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+            rej(err);
+        } else {
+            console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+            res(data);
+        }
     });
   })
+
+  const result = await getItems;
+  //output what we just fetched
+  console.log(result); 
+  return result;
 }
 
 module.exports.updateEmployee = async (payload) => {
