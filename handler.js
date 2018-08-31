@@ -22,7 +22,7 @@ module.exports.get = async (event, context) => {
       getData = await employee.getEmployee(event.queryStringParameters.id);
     }
     else {
-      getData = await employee.getEmployee();
+      getData = await employee.getEmployees();
     }
       
   }
