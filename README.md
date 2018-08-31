@@ -15,7 +15,86 @@ This api is available at https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/
 
 In order to this stack working, you need to clone the repo and follow the instructions that you can find [here](https://circleci.com/blog/deploying-a-serverless-application/).  You do not need two aws accounts to get this application running - the second account would be to put the application into production.  Set up the CircleCI account, install Node if you don't have it already, then install the serverless framework.
 
-Notes:
+# Contracts
+
+All requests to all end points must have an auth header.  Add a header named 'key' and the auth key to have your calls allowed access.  You can find the auth key in auth.js file.  This is of course not real authentication - I wanted something that mocked it.
+
+### POST
+
+Call a POST request on the employees endpoint providing one of the two types of data listed below.
+
+1. A JSON Array - adds all the items in the JSON Array to the db
+
+    [
+        {
+            "FirstName": "Joe",
+            "MiddleInitial": "R",
+            "LastName": "Schmoe",
+            "DateOfBirth": "01/01/2001",
+            "DateOfEmployment": "06/01/2018"
+        },
+        {
+            "FirstName": "Foo",
+            "MiddleInitial": "B",
+            "LastName": "Ar",
+            "DateOfBirth": "05/06/1995",
+            "DateOfEmployment": "03/23/2009"
+        },
+        {
+            "FirstName": "Ira",
+            "MiddleInitial": "A",
+            "LastName": "Noymous",
+            "DateOfBirth": "06/01/1990",
+            "DateOfEmployment": "03/04/2005"
+        },
+        {
+            "FirstName": "Missy",
+            "MiddleInitial": "I",
+            "LastName": "Naction",
+            "DateOfBirth": "01/01/1999",
+            "DateOfEmployment": "12/12/2012"
+        }
+    ]
+
+1. A JSON Object
+
+    {
+        "FirstName": "Ibe",
+        "MiddleInitial": "N",
+        "LastName": "Oone",
+        "DateOfBirth": "02/02/2002",
+        "DateOfEmployment": "06/01/2014"
+    }
+
+### GET
+
+#### Get All - returns active employees in the db
+
+Call a GET request on the emploee endpoint with no additional queryString parameters (i.e. https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/pre/employees)
+
+#### Get - returns one active employee in the db
+
+Call a GET request on the emploee endpoint with the id queryString parameters  sepcified (i.e. https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/pre/employees?id=?).  The ids are uuid v4 values and you should be able to get them via querying for the whole list (see Get All).
+
+### PUT
+
+Call the employee endpoint using the PUT method. (https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/pre/employees).  Provide a payload that looks like the following data (please not the ID must be a UUID that exists and all values are updated to whatever is in the payload):
+
+    {
+        "DateOfBirth": "01/01/2001",
+        "DateOfEmployment": "06/01/2018",
+        "MiddleInitial": "S",
+        "Status": "ACTIVE",
+        "FirstName": "Joe",
+        "ID": "3edd3866-b73b-4dbf-9b4d-072cdc33ffc8",
+        "LastName": "Schmoe"
+    }
+
+### DELETE - changes one employee from ACTIVE status to INACTIVE status
+
+Call the employees endpoint using DELETE method passing the id of the employee you want to set to INACTIVE (i.e. https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/pre/employees?id=5c47e892-0b42-44b9-b41a-2d7fe9038718)
+
+# Notes:
 
 In code challenges choices have to be made.  I happen to think that seeing a full CI/CD solution for a REST server ask is something remarkable.  I've seen what many people turn in for code challenges and I've never seen one like this.  I've add some additional high level thoughts below.  
 

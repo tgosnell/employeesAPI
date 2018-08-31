@@ -4,6 +4,10 @@ const docClient = new aws.DynamoDB.DocumentClient({apiVersion: '2012-08-10'});
 const tableName = process.env.TABLE_NAME;
 const uuid = require('uuid');
 
+/**
+ * addEmployees
+ * @param {*} payload - a JSON array or a set of JSON representing a single employee
+ */
 module.exports.addEmployees = async (payload) => {
 
   // if the data is an array, iterate over the array
@@ -26,8 +30,13 @@ module.exports.addEmployees = async (payload) => {
   }
 }
 
+/**
+ * insert - inserts one employee into the db
+ * @param {*} employee an employee object
+ */
 const insert = async (employee) => {
-    console.log(`inserting: ${JSON.stringify(employee)}`)
+    
+    // set up the params for the insert into dynamo
     let params = {
       TableName: tableName,
       ReturnConsumedCapacity: "TOTAL",
@@ -41,8 +50,6 @@ const insert = async (employee) => {
         Status: 'ACTIVE'
         }
       }
-      
-      console.log(`params: ${JSON.stringify(params)}`)
 
       //define the promise that will wait for the results of the put
       let insertItem = new Promise((res, rej) => {
@@ -63,6 +70,10 @@ const insert = async (employee) => {
       console.log(result);  
 }
 
+/**
+ * getEmployee - returns one active employee or nothing
+ * @param {*} id - the uuid of an employee - must be active, or nothing is return
+ */
 module.exports.getEmployee = async (id) => {
   let result = {};
   if(id){
@@ -153,7 +164,6 @@ const patchEmployee = async (payload) => {
       TableName:tableName,
       Key:{
           "ID": employee.ID,
-          // "Status": title
       },
       UpdateExpression: "set FirstName = :f, MiddleInitial=:m, LastName=:l, DateOfBirth=:dob,DateOfEmployment=:doe, #s=:s",
       ExpressionAttributeValues:{
