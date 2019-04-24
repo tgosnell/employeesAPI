@@ -11,7 +11,7 @@ It has a few tests written in mocha and chai.  Runs on the Node 8.10 runtime.
 
 CircleCI is a CI platform that uses containers to build, test, and deploy the project.  The configuration for CircleCI is locates in the .circleci directory in a file named config.yml
 
-This api is available at https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/pre/employees
+This api is currently not available on any running server - but it certianly could be in short order.
 
 In order to this stack working, you need to clone the repo and follow the instructions that you can find [here](https://circleci.com/blog/deploying-a-serverless-application/).  You do not need two aws accounts to get this application running - the second account would be to put the application into production.  Set up the CircleCI account, install Node if you don't have it already, then install the serverless framework.
 
@@ -70,15 +70,15 @@ or a JSON Object
 
 #### Get All - returns active employees in the db
 
-Call a GET request on the emploee endpoint with no additional queryString parameters (i.e. https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/pre/employees)
+Call a GET request on the emploee endpoint with no additional queryString parameters 
 
 #### Get - returns one active employee in the db
 
-Call a GET request on the emploee endpoint with the id queryString parameters  sepcified (i.e. https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/pre/employees?id=?).  The ids are uuid v4 values and you should be able to get them via querying for the whole list (see Get All).
+Call a GET request on the emploee endpoint with the id queryString parameters sepcified.  The ids are uuid v4 values and you should be able to get them via querying for the whole list (see Get All).
 
 ### PUT
 
-Call the employee endpoint using the PUT method. (https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/pre/employees).  Provide a payload that looks like the following data (please not the ID must be a UUID that exists and all values are updated to whatever is in the payload):
+Call the employee endpoint using the PUT method.  Provide a payload that looks like the following data (please not the ID must be a UUID that exists and all values are updated to whatever is in the payload):
 
     {
         "DateOfBirth": "01/01/2001",
@@ -92,7 +92,7 @@ Call the employee endpoint using the PUT method. (https://an8ebmfhc4.execute-api
 
 ### DELETE - changes one employee from ACTIVE status to INACTIVE status
 
-Call the employees endpoint using DELETE method passing the id of the employee you want to set to INACTIVE (i.e. https://an8ebmfhc4.execute-api.us-west-2.amazonaws.com/pre/employees?id=5c47e892-0b42-44b9-b41a-2d7fe9038718)
+Call the employees endpoint using DELETE method passing the id of the employee you want to set to INACTIVE
 
 # Notes:
 
