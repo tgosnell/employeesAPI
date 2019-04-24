@@ -1,7 +1,7 @@
 
 # Employees API
 
-I've take the liberty to write this application using AWS Lambdas, DynamoDB, and NodeJS.  Building this in Java 1.8 would put me in a non-optimal position as I haven't written any Java in the last 4-5 years.  I am certainly happy to discuss the choices I made in great detail as it is difficult to assess what exactly any given organization thinks is appropriate for their code challeges.  I hope you enjoy looking through this - it was fun to put together.
+I've written this using AWS Lambdas, DynamoDB, and NodeJS.  I am certainly happy to discuss the choices I made in great detail as it is difficult to assess what exactly any given organization thinks is looking for.  I hope you enjoy looking through this - it was fun to put together.
 
 This project is built with the [serverless framework](https://serverless.com/) and [CircleCI](https://circleci.com/).  It was really straight forward to put it together - if you have any issues getting it up and running after reviewing the information I've provided here, please feel free to let me know.  I am more than happy to help!
 
